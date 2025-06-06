@@ -327,32 +327,32 @@ void SimpleGraph<DATA, NAME, WEIGHT>::printGraph() {
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::eEnd() {
-    return EdgeIterator<DATA, NAME, WEIGHT>(nullptr, -1);
+typename SimpleGraph<DATA, NAME, WEIGHT>::EdgeIterator SimpleGraph<DATA, NAME, WEIGHT>::eBegin() {
+    return EdgeIterator(graphForm->getEdgeVector(), 0);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::eBegin() {
-    return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(), 0);
+typename SimpleGraph<DATA, NAME, WEIGHT>::EdgeIterator SimpleGraph<DATA, NAME, WEIGHT>::eEnd() {
+    return EdgeIterator(nullptr, -1);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-VertexIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::vEnd() {
-    return VertexIterator<DATA, NAME, WEIGHT>(graphForm->getVertexVector(), -1);
+typename SimpleGraph<DATA, NAME, WEIGHT>::VertexIterator SimpleGraph<DATA, NAME, WEIGHT>::vBegin() {
+    return VertexIterator(graphForm->getVertexVector(), 0);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-VertexIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::vBegin() {
-    return VertexIterator<DATA, NAME, WEIGHT>(graphForm->getVertexVector(), 0);
+typename SimpleGraph<DATA, NAME, WEIGHT>::VertexIterator SimpleGraph<DATA, NAME, WEIGHT>::vEnd() {
+    return VertexIterator(graphForm->getVertexVector(), -1);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEEnd(int v) {
-    return EdgeIterator<DATA, NAME, WEIGHT>(nullptr, -1);
+typename SimpleGraph<DATA, NAME, WEIGHT>::EdgeIterator SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(int v) {
+    return EdgeIterator(graphForm->getEdgeVector(v), 0);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-EdgeIterator<DATA, NAME, WEIGHT> SimpleGraph<DATA, NAME, WEIGHT>::adjEBegin(int v) {
-    return EdgeIterator<DATA, NAME, WEIGHT>(graphForm->getEdgeVector(v), 0);
+typename SimpleGraph<DATA, NAME, WEIGHT>::EdgeIterator SimpleGraph<DATA, NAME, WEIGHT>::adjEEnd(int v) {
+    return EdgeIterator(nullptr, -1);
 }
 

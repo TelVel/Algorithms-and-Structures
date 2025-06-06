@@ -321,54 +321,6 @@ src/forms/MGraph.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/forms/MGraph.cpp.s
 .PHONY : src/forms/MGraph.cpp.s
 
-src/iterators/EdgeIterator.o: src/iterators/EdgeIterator.cpp.o
-.PHONY : src/iterators/EdgeIterator.o
-
-# target to build an object file
-src/iterators/EdgeIterator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/EdgeIterator.cpp.o
-.PHONY : src/iterators/EdgeIterator.cpp.o
-
-src/iterators/EdgeIterator.i: src/iterators/EdgeIterator.cpp.i
-.PHONY : src/iterators/EdgeIterator.i
-
-# target to preprocess a source file
-src/iterators/EdgeIterator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/EdgeIterator.cpp.i
-.PHONY : src/iterators/EdgeIterator.cpp.i
-
-src/iterators/EdgeIterator.s: src/iterators/EdgeIterator.cpp.s
-.PHONY : src/iterators/EdgeIterator.s
-
-# target to generate assembly for a file
-src/iterators/EdgeIterator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/EdgeIterator.cpp.s
-.PHONY : src/iterators/EdgeIterator.cpp.s
-
-src/iterators/VertexIterator.o: src/iterators/VertexIterator.cpp.o
-.PHONY : src/iterators/VertexIterator.o
-
-# target to build an object file
-src/iterators/VertexIterator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/VertexIterator.cpp.o
-.PHONY : src/iterators/VertexIterator.cpp.o
-
-src/iterators/VertexIterator.i: src/iterators/VertexIterator.cpp.i
-.PHONY : src/iterators/VertexIterator.i
-
-# target to preprocess a source file
-src/iterators/VertexIterator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/VertexIterator.cpp.i
-.PHONY : src/iterators/VertexIterator.cpp.i
-
-src/iterators/VertexIterator.s: src/iterators/VertexIterator.cpp.s
-.PHONY : src/iterators/VertexIterator.s
-
-# target to generate assembly for a file
-src/iterators/VertexIterator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Graph_RGR.dir/build.make CMakeFiles/Graph_RGR.dir/src/iterators/VertexIterator.cpp.s
-.PHONY : src/iterators/VertexIterator.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -450,12 +402,6 @@ help:
 	@echo "... src/forms/MGraph.o"
 	@echo "... src/forms/MGraph.i"
 	@echo "... src/forms/MGraph.s"
-	@echo "... src/iterators/EdgeIterator.o"
-	@echo "... src/iterators/EdgeIterator.i"
-	@echo "... src/iterators/EdgeIterator.s"
-	@echo "... src/iterators/VertexIterator.o"
-	@echo "... src/iterators/VertexIterator.i"
-	@echo "... src/iterators/VertexIterator.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

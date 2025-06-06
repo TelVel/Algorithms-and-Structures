@@ -193,8 +193,8 @@ void iteratorsMenu() {
 void vertexIteratorMenu() {
     int command = -1;
     vector<Vertex<int, string> *> vertexVector;
-    VertexIterator<int, string, int> iter = VertexIterator<int, string, int>(vertexVector, -1);
-    VertexIterator<int, string, int> end = VertexIterator<int, string, int>(vertexVector, -1);
+    typename SimpleGraph<int, string, int>::VertexIterator iter(vertexVector, -1);
+    typename SimpleGraph<int, string, int>::VertexIterator end(vertexVector, -1);
 
     while (command != 5) {
         cout << "Выберите действие:\n"
@@ -216,22 +216,34 @@ void vertexIteratorMenu() {
             case 2:
                 if (iter != end) {
                     iter++;
+                    if (iter == end) {
+                        cout << "0" << endl;
+                    }
                 } else {
-                    std::cout << "0" << std::endl;
+                    cout << "0" << endl;
                 }
                 break;
             case 3:
                 if (iter != end) {
-                    std::cout << *iter << std::endl;
+                    cout << *iter << endl;
                 } else {
-                    std::cout << "0\n";
+                    cout << "0" << endl;
                 }
                 break;
             case 4:
-                for (auto it = Graph->vBegin(); it != Graph->vEnd(); it++) {
-                    std::cout << *it << " ";
+                {
+                    auto it = Graph->vBegin();
+                    auto endIt = Graph->vEnd();
+                    if (it == endIt) {
+                        cout << "0" << endl;
+                    } else {
+                        while (it != endIt) {
+                            cout << *it << " ";
+                            ++it;
+                        }
+                        cout << endl;
+                    }
                 }
-                std::cout << std::endl;
                 break;
             default:
                 break;
@@ -239,52 +251,52 @@ void vertexIteratorMenu() {
     }
 }
 
-    void edgeIteratorMenu() {
-        int command = -1;
-        EdgeIterator<int, string, int> iter = EdgeIterator<int, string, int>(nullptr, -1);
-        EdgeIterator<int, string, int> end = EdgeIterator<int, string, int>(nullptr, -1);
+void edgeIteratorMenu() {
+    int command = -1;
+    typename SimpleGraph<int, string, int>::EdgeIterator iter(nullptr, -1);
+    typename SimpleGraph<int, string, int>::EdgeIterator end(nullptr, -1);
 
-        while (command != 4) {
-            cout << "Выберите действие:\n"
-                 << "1) Установить итератор в начало графа\n"
-                 << "2) Переместить итератор вперед (++)\n"
-                 << "3) Получить текущий элемент\n"
-                 << "4) Вернуться в главное меню\n";
-                 
-            if (!(cin >> command)) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
-            switch (command) {
-                case 1:
-                    iter = Graph->eBegin();
-                    break;
-                case 2:
-                    if (iter != end) {
-                        iter++;
-                    } else {
-                        std::cout << "0" << std::endl;
-                    }
-                    break;
-                case 3:
-                    if (iter != end) {
-                        Edge<int, string, int>* edge = *iter;
-                        std::cout << edge->getV1()->getInd() << std::endl;
-                        std::cout << edge->getV2()->getInd() << std::endl;
-                    } else {
-                        std::cout << "0" << std::endl;
-                    }
-                    break;
-                default:
-                    break;
-            }
+    while (command != 4) {
+        cout << "Выберите действие:\n"
+             << "1) Установить итератор в начало графа\n"
+             << "2) Переместить итератор вперед (++)\n"
+             << "3) Получить текущий элемент\n"
+             << "4) Вернуться в главное меню\n";
+             
+        if (!(cin >> command)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        switch (command) {
+            case 1:
+                iter = Graph->eBegin();
+                break;
+            case 2:
+                if (iter != end) {
+                    iter++;
+                } else {
+                    std::cout << "0" << std::endl;
+                }
+                break;
+            case 3:
+                if (iter != end) {
+                    Edge<int, string, int>* edge = *iter;
+                    std::cout << edge->getV1()->getInd() << std::endl;
+                    std::cout << edge->getV2()->getInd() << std::endl;
+                } else {
+                    std::cout << "0" << std::endl;
+                }
+                break;
+            default:
+                break;
         }
     }
+}
 
 void inputEdgeIteratorMenu(int v) {
     int command = -1;
-    EdgeIterator<int, string, int> iter = EdgeIterator<int, string, int>(nullptr, -1);
-    EdgeIterator<int, string, int> end = EdgeIterator<int, string, int>(nullptr, -1);
+    typename SimpleGraph<int, string, int>::EdgeIterator iter(nullptr, -1);
+    typename SimpleGraph<int, string, int>::EdgeIterator end(nullptr, -1);
 
     while (command != 5) {
         cout << "Выберите действие:\n"

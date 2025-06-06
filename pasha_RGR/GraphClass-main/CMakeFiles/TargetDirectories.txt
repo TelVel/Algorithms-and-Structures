@@ -1,0 +1,3 @@
+/home/telvel/projects/Algorithms-and-Structures/pasha_RGR/GraphClass-main/CMakeFiles/Graph_RGR.dir
+/home/telvel/projects/Algorithms-and-Structures/pasha_RGR/GraphClass-main/CMakeFiles/edit_cache.dir
+/home/telvel/projects/Algorithms-and-Structures/pasha_RGR/GraphClass-main/CMakeFiles/rebuild_cache.dir
