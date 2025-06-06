@@ -8,18 +8,18 @@
 template<typename DATA, typename NAME>
 class CycleFinder {
 private:
-    SimpleGraph<DATA, NAME, int>* graph;
+    SimpleGraph<DATA, NAME, int>* Graph;
     int targetLength;
     int startVertex;
     std::vector<std::vector<int>> cycles;
-    std::vector<bool> visited; // Используем vector вместо массива
+    std::vector<bool> visited;
 
     void dfs(int current, std::vector<int>& path) {
         path.push_back(current);
         visited[current] = true;
 
         if (path.size() == targetLength) {
-            if (graph->getEdge(current, startVertex) != nullptr) {
+            if (Graph->getEdge(current, startVertex) != nullptr) {
                 cycles.push_back(path);
                 cycles.back().push_back(startVertex);
             }
@@ -28,7 +28,7 @@ private:
             return;
         }
 
-        for (auto it = graph->adjEBegin(current); it != graph->adjEEnd(current); ++it) {
+        for (auto it = Graph->adjEBegin(current); it != Graph->adjEEnd(current); ++it) {
             int next = (*it)->getV2()->getInd();
             if (!visited[next]) {
                 dfs(next, path);
@@ -41,9 +41,9 @@ private:
 
 public:
     CycleFinder(SimpleGraph<DATA, NAME, int>* g, int length, int start) 
-        : graph(g), targetLength(length), startVertex(start) {
-        if (graph) {
-            visited.resize(graph->getV(), false);
+        : Graph(g), targetLength(length), startVertex(start) {
+        if (Graph) {
+            visited.resize(Graph->getV(), false);
             std::vector<int> path;
             dfs(startVertex, path);
         }
@@ -51,11 +51,11 @@ public:
 
     // Конструктор копирования
     CycleFinder(const CycleFinder& other) {
-        graph = other.graph;
+        Graph = other.Graph;
         targetLength = other.targetLength;
         startVertex = other.startVertex;
         cycles = other.cycles;
-        if (graph) solve();
+        if (Graph) solve();
     }
 
     // Деструктор
@@ -66,7 +66,7 @@ public:
     }
     
     void set(SimpleGraph<DATA, NAME, int>* g) {
-        graph = g;
+        Graph = g;
         restart();
     }
 
@@ -76,9 +76,9 @@ public:
 
 private:
     void solve() {
-        visited.assign(graph->getV(), false); // Очищаем и ресайзим
+        visited.assign(Graph->getV(), false); // Очищаем и ресайзим
         cycles.clear();
-        if (graph) {
+        if (Graph) {
             std::vector<int> path;
             dfs(startVertex, path);
         }

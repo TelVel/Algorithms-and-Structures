@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_EDGE_H
-#define ASD_RGR_EDGE_H
+#ifndef GRAPH_RGR_EDGE_H
+#define GRAPH_RGR_EDGE_H
 
 #include "Vertex.h"
 
@@ -33,4 +33,4 @@ private:
 
 
 
-#endif //ASD_RGR_EDGE_H
+#endif //GRAPH_RGR_EDGE_H

@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_GRAPHFORM_H
-#define ASD_RGR_GRAPHFORM_H
+#ifndef GRAPH_RGR_GRAPHFORM_H
+#define GRAPH_RGR_GRAPHFORM_H
 
 #include <string>
 #include <vector>
@@ -40,4 +40,4 @@ public:
 };
 
 
-#endif //ASD_RGR_GRAPHFORM_H
+#endif //GRAPH_RGR_GRAPHFORM_H

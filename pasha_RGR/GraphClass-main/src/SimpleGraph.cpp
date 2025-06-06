@@ -2,26 +2,26 @@
 
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph() {
-    VCount = 0;
-    ECount = 0;
+    VCnt = 0;
+    ECnt = 0;
     D = false;
     dense = false;
-    graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
+    graphForm = new LGraph<DATA, NAME, WEIGHT>(VCnt, D);
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
-    VCount = _VCount;
-    ECount = 0;
+SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCnt, bool _D, bool _F) {
+    VCnt = _VCnt;
+    ECnt = 0;
     D = _D;
     dense = _F;
 
     if (dense == LGraphType)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCnt, D);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCnt, D);
 
-    for (int i = 0; i < VCount; ++i) {
+    for (int i = 0; i < VCnt; ++i) {
         graphForm->getVertexVector().push_back(new VertexT());
         graphForm->getVertexVector()[i]->setName(to_string(i));
         graphForm->getVertexVector()[i]->setInd(i);
@@ -30,42 +30,42 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, bool _D, bool _F) {
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
-SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, bool _F) {
-    VCount = _VCount;
-    ECount = 0;  // Start with 0 and increment as edges are added
+SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCnt, int _ECnt, bool _D, bool _F) {
+    VCnt = _VCnt;
+    ECnt = 0;  // Start with 0 and increment as edges are added
     D = _D;
     dense = _F;
 
     if (dense == LGraphType)
-        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCount, D);
+        graphForm = new LGraph<DATA, NAME, WEIGHT>(VCnt, D);
     else
-        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
+        graphForm = new MGraph<DATA, NAME, WEIGHT>(VCnt, D);
 
-    for (int i = 0; i < VCount; ++i) {
+    for (int i = 0; i < VCnt; ++i) {
         graphForm->getVertexVector().push_back(new VertexT());
         graphForm->getVertexVector()[i]->setName(to_string(i));
         graphForm->getVertexVector()[i]->setInd(i);
         graphForm->getVertexVector()[i]->setData(i+10);
     }
     
-    if (_ECount <= 0) return;
+    if (_ECnt <= 0) return;
     
     // Calculate maximum possible edges
     int maxEdges;
     if (D) {
-        maxEdges = VCount * (VCount - 1);
+        maxEdges = VCnt * (VCnt - 1);
     } else {
-        maxEdges = (VCount * (VCount - 1)) / 2;
+        maxEdges = (VCnt * (VCnt - 1)) / 2;
     }
     
-    // Limit ECount to maximum possible edges
-    int targetEdges = min(_ECount, maxEdges);
+    // Limit ECnt to maximum possible edges
+    int targetEdges = min(_ECnt, maxEdges);
     
     // Add random edges until we reach the target
     srand(time(0));
-    while (ECount < targetEdges) {
-        int v1 = rand() % VCount;
-        int v2 = rand() % VCount;
+    while (ECnt < targetEdges) {
+        int v1 = rand() % VCnt;
+        int v2 = rand() % VCnt;
         
         // Skip self-loops
         if (v1 == v2) continue;
@@ -76,15 +76,15 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCount, int _ECount, bool _D, 
         // Add the edge
         EdgeT* edge = graphForm->insertE(graphForm->getVertexVector()[v1], graphForm->getVertexVector()[v2]);
         if (edge) {
-            ECount++;
+            ECnt++;
         }
     }
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(SimpleGraph &G) {
-    VCount = G.VCount;
-    ECount = G.ECount;
+    VCnt = G.VCnt;
+    ECnt = G.ECnt;
     D = G.D;
     dense = G.dense;
     if (dense == LGraphType)
@@ -110,7 +110,7 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
     if (D) {
         // For directed graphs, count both incoming and outgoing edges
         // Delete all incoming edges
-        for (int i = 0; i < VCount; ++i) {
+        for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(graphForm->getVertexVector()[i], v);
             if (edge) {
                 graphForm->deleteE(edge);
@@ -119,7 +119,7 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
         }
         
         // Delete all outgoing edges
-        for (int i = 0; i < VCount; ++i) {
+        for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(v, graphForm->getVertexVector()[i]);
             if (edge) {
                 graphForm->deleteE(edge);
@@ -128,29 +128,29 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
         }
     } else {
         // For undirected graphs, only count edges once
-        for (int i = 0; i < VCount; ++i) {
+        for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(v, graphForm->getVertexVector()[i]);
             if (edge) {
                 graphForm->deleteE(edge);
                 edgesDeleted++;
-                // The corresponding edge in the opposite direction will be deleted by the graph implementation
+                // The corresponding edge in the opposite direction will be deleted by the Graph implementation
             }
         }
     }
     
     // Update edge count
-    ECount -= edgesDeleted;
+    ECnt -= edgesDeleted;
     
     // Now delete the vertex itself
-    for (int i = 0; i < VCount; ++i) {
+    for (int i = 0; i < VCnt; ++i) {
         if (graphForm->getVertexVector()[i]->getInd() == v->getInd()) {
             delete graphForm->getVertexVector()[i];
-            for (int j = i; j < VCount - 1; ++j) {
+            for (int j = i; j < VCnt - 1; ++j) {
                 graphForm->getVertexVector()[j] = graphForm->getVertexVector()[j + 1];
             }
             graphForm->deleteV(v->getInd());
-            VCount--;
-            graphForm->getVertexVector().resize(VCount);
+            VCnt--;
+            graphForm->getVertexVector().resize(VCnt);
             return true;
         }
     }
@@ -160,21 +160,21 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
 template<typename DATA, typename NAME, typename WEIGHT>
 Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV() {
     auto *v = new Vertex<DATA, NAME>;
-    VCount++;
-    v->setInd(VCount - 1);
+    VCnt++;
+    v->setInd(VCnt - 1);
     graphForm->getVertexVector().push_back(v);
-    graphForm->insertV(VCount - 1);
+    graphForm->insertV(VCnt - 1);
     return v;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV(NAME name) {
     auto *v = new Vertex<DATA, NAME>;
-    VCount++;
+    VCnt++;
     v->setName(name);
-    v->setInd(VCount - 1);
+    v->setInd(VCnt - 1);
     graphForm->getVertexVector().push_back(v);
-    graphForm->insertV(VCount - 1);
+    graphForm->insertV(VCnt - 1);
     return v;
 }
 
@@ -191,12 +191,12 @@ void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *
         newVertex->setInd(oldVertex->getInd());
         newVertex->setName(oldVertex->getName());
         newVertex->setData(oldVertex->getData());
-        // Add to new graph's vertex vector
+        // Add to new Graph's vertex vector
         newForm->getVertexVector().push_back(newVertex);
         newForm->insertV(newVertex->getInd());
     }
 
-    ECount = 0;
+    ECnt = 0;
 
     // Get all edges from old form
     vector<Edge<DATA, NAME, WEIGHT>*>* oldEdges = graphForm->getEdgeVector();
@@ -225,7 +225,7 @@ void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *
             EdgeT* newEdge = newForm->insertE(newV1, newV2, oldEdge->getW());
             if (newEdge) {
                 newEdge->setData(oldEdge->getData());
-                ECount++;
+                ECnt++;
             }
         }
         delete oldEdges;
@@ -241,7 +241,7 @@ void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::toMatrixGraph() {
     if (dense == MGraphType) return;
-    auto newForm = new MGraph<DATA, NAME, WEIGHT>(VCount, D);
+    auto newForm = new MGraph<DATA, NAME, WEIGHT>(VCnt, D);
     switchForm(newForm);
     dense = MGraphType;
 }
@@ -249,7 +249,7 @@ void SimpleGraph<DATA, NAME, WEIGHT>::toMatrixGraph() {
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::toListGraph() {
     if (dense == LGraphType)return;
-    auto newForm = new LGraph<DATA, NAME, WEIGHT>(VCount, DGraphType);
+    auto newForm = new LGraph<DATA, NAME, WEIGHT>(VCnt, DGraphType);
     switchForm(newForm);
     newForm->setDirected(D);
     dense = LGraphType;
@@ -259,9 +259,9 @@ template<typename DATA, typename NAME, typename WEIGHT>
 int SimpleGraph<DATA, NAME, WEIGHT>::getK() {
     int K;
     if (D)
-        K = ECount / (VCount * (VCount - 1));
+        K = ECnt / (VCnt * (VCnt - 1));
     else
-        K = VCount * (VCount - 1) / 2;
+        K = VCnt * (VCnt - 1) / 2;
     return K;
 }
 
@@ -277,12 +277,12 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::isDirected() {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 int SimpleGraph<DATA, NAME, WEIGHT>::getE() {
-    return ECount;
+    return ECnt;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 int SimpleGraph<DATA, NAME, WEIGHT>::getV() {
-    return VCount;
+    return VCnt;
 }
 
 
@@ -301,14 +301,14 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
     bool deleted = graphForm->deleteE(e);
     cout << deleted << endl;
     if (deleted) {
-        ECount--;
+        ECnt--;
     }
     return deleted;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::insertE(VertexT *i, VertexT *j) {
-    ECount++;
+    ECnt++;
     return graphForm->insertE(i, j);
 }
 
@@ -316,7 +316,7 @@ template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT> *SimpleGraph<DATA, NAME, WEIGHT>::insertE(VertexT *i, VertexT *j, int _w) {
     EdgeT* edge = graphForm->insertE(i, j, _w);
     if (edge) {
-        ECount++;
+        ECnt++;
     }
     return edge;
 }

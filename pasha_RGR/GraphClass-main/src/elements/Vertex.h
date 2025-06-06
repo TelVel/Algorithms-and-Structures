@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_VERTEX_H
-#define ASD_RGR_VERTEX_H
+#ifndef GRAPH_RGR_VERTEX_H
+#define GRAPH_RGR_VERTEX_H
 
 #include <string>
 
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif //ASD_RGR_VERTEX_H
+#endif //GRAPH_RGR_VERTEX_H

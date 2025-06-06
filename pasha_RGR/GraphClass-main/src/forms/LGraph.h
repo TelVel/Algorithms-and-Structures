@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_LGRAPH_H
-#define ASD_RGR_LGRAPH_H
+#ifndef GRAPH_RGR_LGRAPH_H
+#define GRAPH_RGR_LGRAPH_H
 
 #include "../SimpleGraph.h"
 #include "GraphForm.h"
@@ -79,4 +79,4 @@ private:
 };
 
 
-#endif //ASD_RGR_LGRAPH_H
+#endif //GRAPH_RGR_LGRAPH_H

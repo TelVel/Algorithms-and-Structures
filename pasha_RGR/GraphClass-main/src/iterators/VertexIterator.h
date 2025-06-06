@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_VERTEXITERATOR_H
-#define ASD_RGR_VERTEXITERATOR_H
+#ifndef GRAPH_RGR_VERTEXITERATOR_H
+#define GRAPH_RGR_VERTEXITERATOR_H
 
 #include <vector>
 #include "../elements/Vertex.h"
@@ -38,4 +38,4 @@ private:
 };
 
 
-#endif //ASD_RGR_VERTEXITERATOR_H
+#endif //GRAPH_RGR_VERTEXITERATOR_H

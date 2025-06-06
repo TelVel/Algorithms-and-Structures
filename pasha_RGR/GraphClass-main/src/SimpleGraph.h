@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_SIMPLEGRAPH_H
-#define ASD_RGR_SIMPLEGRAPH_H
+#ifndef GRAPH_RGR_SIMPLEGRAPH_H
+#define GRAPH_RGR_SIMPLEGRAPH_H
 
 #define LGraphType false
 #define MGraphType true
@@ -23,9 +23,9 @@ public:
 
     SimpleGraph();
 
-    SimpleGraph(int VCount, bool D, bool F);
+    SimpleGraph(int _VCnt, bool _D, bool _F);
 
-    SimpleGraph(int VCount, int ECount, bool D, bool F);
+    SimpleGraph(int _VCnt, int _ECnt, bool _D, bool _F);
 
     SimpleGraph(SimpleGraph &G);
 
@@ -80,8 +80,8 @@ public:
 private:
     void switchForm(GraphForm<DATA, NAME, WEIGHT> *newForm);
 
-    int VCount;
-    int ECount;
+    int VCnt;
+    int ECnt;
     bool D;
     bool dense;
 };
@@ -90,4 +90,4 @@ template
 class SimpleGraph<int, string, int>;
 
 
-#endif //ASD_RGR_SIMPLEGRAPH_H
+#endif //GRAPH_RGR_SIMPLEGRAPH_H

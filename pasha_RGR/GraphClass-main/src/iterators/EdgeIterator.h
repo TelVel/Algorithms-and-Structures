@@ -1,5 +1,5 @@
-#ifndef ASD_RGR_EDGEITERATOR_H
-#define ASD_RGR_EDGEITERATOR_H
+#ifndef GRAPH_RGR_EDGEITERATOR_H
+#define GRAPH_RGR_EDGEITERATOR_H
 
 #include <vector>
 #include "../elements/Edge.h"
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif //ASD_RGR_EDGEITERATOR_H
+#endif

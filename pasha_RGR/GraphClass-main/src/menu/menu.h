@@ -1,5 +1,5 @@
-#ifndef ASD_1_MENU_H
-#define ASD_1_MENU_H
+#ifndef GRAPH_1_MENU_H
+#define GRAPH_1_MENU_H
 
 #include <iostream>
 #include "../SimpleGraph.h"
@@ -20,4 +20,4 @@ void task2Menu();
 
 void task3Menu();
 
-#endif //ASD_1_MENU_H
+#endif //GRAPH_1_MENU_H
