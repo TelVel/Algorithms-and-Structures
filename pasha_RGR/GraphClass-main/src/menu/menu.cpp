@@ -371,22 +371,22 @@ void task2Menu() {
 
 void task3Menu() {
     if (!Graph) {
-        cout << "Graph is not initialized" << endl;
+        cout << "0" << endl;
         return;
     }
 
-    Task3<int, string, int> task3(Graph);
+    BellPaths<int, string, int> task3(Graph);
     try {
         auto allPaths = task3.getAllPaths();
-        cout << "\nShortest paths between all vertices:" << endl;
+        cout << "\nКратчайшие пути между вершинами" << endl;
         cout << "--------------------------------" << endl;
         
         for (int i = 0; i < Graph->getV(); i++) {
             for (int j = 0; j < Graph->getV(); j++) {
                 if (i != j && allPaths[i][j].distance != numeric_limits<int>::max()) {
-                    cout << "Path from " << i << " to " << j << ":" << endl;
-                    cout << "Distance: " << allPaths[i][j].distance << endl;
-                    cout << "Path: ";
+                    cout << "Путь от " << i << " до " << j << ":" << endl;
+                    cout << "Вес: " << allPaths[i][j].distance << endl;
+                    cout << "Путь: ";
                     for (size_t k = 0; k < allPaths[i][j].path.size(); k++) {
                         cout << allPaths[i][j].path[k];
                         if (k < allPaths[i][j].path.size() - 1) {

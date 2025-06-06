@@ -3,11 +3,11 @@
 #include <stdexcept>
 
 template <typename DATA, typename NAME, typename WD>
-class Task3 {
+class BellPaths {
 private:
     SimpleGraph<DATA, NAME, WD>* G;
     vector<vector<WD>> res;
-    vector<vector<vector<int>>> paths;  // Store paths between vertices
+    vector<vector<vector<int>>> paths;
     bool hasNegativeCycle;
 
     void Bellman_Ford() {
@@ -15,17 +15,15 @@ private:
         const int V = G->getV();
         const WD INF = numeric_limits<WD>::max();
         res.assign(V, vector<WD>(V, INF));
-        paths.assign(V, vector<vector<int>>(V));  // Initialize paths matrix
-
-        // Initialize paths with direct edges
+        paths.assign(V, vector<vector<int>>(V));
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
                 if (i == j) {
                     res[i][j] = 0;
-                    paths[i][j] = {i};  // Path to self is just the vertex itself
+                    paths[i][j] = {i};
                 }
                 if (G->getEdge(i, j)) {
-                    paths[i][j] = {i, j};  // Direct path
+                    paths[i][j] = {i, j};
                 }
             }
         }
@@ -39,14 +37,11 @@ private:
                     WD w = (*eIt)->getW();
                     if (res[src][u] != INF && res[src][v] > res[src][u] + w) {
                         res[src][v] = res[src][u] + w;
-                        // Update path: copy path to u and append v
                         paths[src][v] = paths[src][u];
                         paths[src][v].push_back(v);
                     }
                 }
             }
-
-            // Check for negative cycles
             for (auto eIt = G->eBegin(); eIt != G->eEnd(); ++eIt) {
                 int u = (*eIt)->getV1()->getInd();
                 int v = (*eIt)->getV2()->getInd();
@@ -60,14 +55,14 @@ private:
     }
 
 public:
-    Task3(SimpleGraph<DATA, NAME, WD>* g) : G(g), hasNegativeCycle(false) {
+    BellPaths(SimpleGraph<DATA, NAME, WD>* g) : G(g), hasNegativeCycle(false) {
         restart();
     }
 
-    Task3(const Task3& other) : G(other.G), res(other.res), 
+    BellPaths(const BellPaths& other) : G(other.G), res(other.res), 
                                paths(other.paths), hasNegativeCycle(other.hasNegativeCycle) {}
 
-    ~Task3() { 
+    ~BellPaths() { 
         res.clear(); 
         paths.clear();
     }
@@ -82,7 +77,6 @@ public:
         Bellman_Ford();
     }
 
-    // Get the shortest distance between two vertices
     WD getDistance(int from, int to) const {
         if (hasNegativeCycle) throw runtime_error("Graph contains negative cycle");
         if (from < 0 || to < 0 || from >= G->getV() || to >= G->getV())
@@ -90,7 +84,6 @@ public:
         return res[from][to];
     }
 
-    // Get the path between two vertices
     vector<int> getPath(int from, int to) const {
         if (hasNegativeCycle) throw runtime_error("Graph contains negative cycle");
         if (from < 0 || to < 0 || from >= G->getV() || to >= G->getV())

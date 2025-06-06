@@ -19,7 +19,6 @@ public:
     using VertexT = Vertex<DATA, NAME>;
     using EdgeT = Edge<DATA, NAME, WEIGHT>;
 
-    // Nested EdgeIterator class
     class EdgeIterator {
     public:
         using reference = EdgeIterator &;
@@ -53,7 +52,6 @@ public:
         int index;
     };
 
-    // Nested VertexIterator class
     class VertexIterator {
     public:
         using reference = VertexIterator &;

@@ -49,7 +49,6 @@ public:
         }
     }
 
-    // Конструктор копирования
     CycleFinder(const CycleFinder& other) {
         Graph = other.Graph;
         targetLength = other.targetLength;
@@ -58,8 +57,11 @@ public:
         if (Graph) solve();
     }
 
-    // Деструктор
-    ~CycleFinder() = default;
+    ~CycleFinder() {
+        cycles.clear();
+        visited.clear();
+        // Note: We don't delete Graph as it's owned externally
+    }
 
     void restart() {
         solve();

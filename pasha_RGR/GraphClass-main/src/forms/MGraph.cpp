@@ -82,28 +82,22 @@ bool MGraph<DATA, NAME, WEIGHT>::deleteE(EdgeT *e) {
 template<typename DATA, typename NAME, typename WEIGHT>
 bool MGraph<DATA, NAME, WEIGHT>::deleteV(int v) {
     if (v < 0 || v >= size) return false;
-
-    // Delete all edges connected to this vertex
     for (int j = 0; j < size; ++j) {
-        delete matrix[v][j];  // Delete row
-        delete matrix[j][v];  // Delete column
+        delete matrix[v][j];
+        delete matrix[j][v];
     }
-
-    // Shift rows up
     for (int i = v; i < size - 1; ++i) {
         for (int j = 0; j < size; ++j) {
             matrix[i][j] = matrix[i + 1][j];
         }
     }
 
-    // Shift columns left
     for (int i = 0; i < size; ++i) {
         for (int j = v; j < size - 1; ++j) {
             matrix[i][j] = matrix[i][j + 1];
         }
     }
 
-    // Update vertex indices in edges
     for (int i = 0; i < size - 1; ++i) {
         for (int j = 0; j < size - 1; ++j) {
             if (matrix[i][j]) {
@@ -117,7 +111,6 @@ bool MGraph<DATA, NAME, WEIGHT>::deleteV(int v) {
         }
     }
 
-    // Shrink matrix
     size--;
     matrix.resize(size);
     for (int i = 0; i < size; ++i) {
@@ -152,8 +145,7 @@ Edge<DATA, NAME, WEIGHT> *MGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, Verte
         v1->getInd() >= size || v2->getInd() >= size) {
         return nullptr;
     }
-    
-    // Use vertices from vertexVector
+
     VertexT* sourceVertex = vertexVector[v1->getInd()];
     VertexT* targetVertex = vertexVector[v2->getInd()];
     
@@ -169,8 +161,7 @@ Edge<DATA, NAME, WEIGHT> *MGraph<DATA, NAME, WEIGHT>::insertE(VertexT *v1, Verte
         v1->getInd() >= size || v2->getInd() >= size) {
         return nullptr;
     }
-    
-    // Use vertices from vertexVector
+
     VertexT* sourceVertex = vertexVector[v1->getInd()];
     VertexT* targetVertex = vertexVector[v2->getInd()];
     

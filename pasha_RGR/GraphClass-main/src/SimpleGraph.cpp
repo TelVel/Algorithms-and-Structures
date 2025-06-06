@@ -32,7 +32,7 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCnt, bool _D, bool _F) {
 template<typename DATA, typename NAME, typename WEIGHT>
 SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCnt, int _ECnt, bool _D, bool _F) {
     VCnt = _VCnt;
-    ECnt = 0;  // Start with 0 and increment as edges are added
+    ECnt = 0;
     D = _D;
     dense = _F;
 
@@ -49,31 +49,21 @@ SimpleGraph<DATA, NAME, WEIGHT>::SimpleGraph(int _VCnt, int _ECnt, bool _D, bool
     }
     
     if (_ECnt <= 0) return;
-    
-    // Calculate maximum possible edges
+
     int maxEdges;
     if (D) {
         maxEdges = VCnt * (VCnt - 1);
     } else {
         maxEdges = (VCnt * (VCnt - 1)) / 2;
     }
-    
-    // Limit ECnt to maximum possible edges
+
     int targetEdges = min(_ECnt, maxEdges);
-    
-    // Add random edges until we reach the target
     srand(time(0));
     while (ECnt < targetEdges) {
         int v1 = rand() % VCnt;
         int v2 = rand() % VCnt;
-        
-        // Skip self-loops
         if (v1 == v2) continue;
-        
-        // Skip if edge already exists
         if (graphForm->hasEdge(v1, v2)) continue;
-        
-        // Add the edge
         EdgeT* edge = graphForm->insertE(graphForm->getVertexVector()[v1], graphForm->getVertexVector()[v2]);
         if (edge) {
             ECnt++;
@@ -103,13 +93,10 @@ SimpleGraph<DATA, NAME, WEIGHT>::~SimpleGraph() {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
-    // First, count and delete all edges connected to this vertex
     int edgesDeleted = 0;
     EdgeT* edge;
     
     if (D) {
-        // For directed graphs, count both incoming and outgoing edges
-        // Delete all incoming edges
         for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(graphForm->getVertexVector()[i], v);
             if (edge) {
@@ -118,7 +105,6 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
             }
         }
         
-        // Delete all outgoing edges
         for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(v, graphForm->getVertexVector()[i]);
             if (edge) {
@@ -127,21 +113,17 @@ bool SimpleGraph<DATA, NAME, WEIGHT>::deleteV(VertexT *v) {
             }
         }
     } else {
-        // For undirected graphs, only count edges once
         for (int i = 0; i < VCnt; ++i) {
             edge = graphForm->getEdge(v, graphForm->getVertexVector()[i]);
             if (edge) {
                 graphForm->deleteE(edge);
                 edgesDeleted++;
-                // The corresponding edge in the opposite direction will be deleted by the Graph implementation
             }
         }
     }
-    
-    // Update edge count
+
     ECnt -= edgesDeleted;
-    
-    // Now delete the vertex itself
+
     for (int i = 0; i < VCnt; ++i) {
         if (graphForm->getVertexVector()[i]->getInd() == v->getInd()) {
             delete graphForm->getVertexVector()[i];
@@ -180,48 +162,35 @@ Vertex<DATA, NAME> *SimpleGraph<DATA, NAME, WEIGHT>::insertV(NAME name) {
 
 template<typename DATA, typename NAME, typename WEIGHT>
 void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *newForm) {
-    // First, create a mapping of old vertices to new vertices
     vector<VertexT*>& oldVertices = graphForm->getVertexVector();
-    
-    // Copy vertices while preserving indices
     for (size_t i = 0; i < oldVertices.size(); ++i) {
         VertexT* oldVertex = oldVertices[i];
-        // Create new vertex with exact same properties
         VertexT* newVertex = new VertexT();
         newVertex->setInd(oldVertex->getInd());
         newVertex->setName(oldVertex->getName());
         newVertex->setData(oldVertex->getData());
-        // Add to new Graph's vertex vector
         newForm->getVertexVector().push_back(newVertex);
         newForm->insertV(newVertex->getInd());
     }
 
     ECnt = 0;
-
-    // Get all edges from old form
     vector<Edge<DATA, NAME, WEIGHT>*>* oldEdges = graphForm->getEdgeVector();
     if (oldEdges) {
         for (EdgeT* oldEdge : *oldEdges) {
             if (!oldEdge || !oldEdge->getV1() || !oldEdge->getV2()) continue;
-            
-            // Get indices from old edge
             int v1Idx = oldEdge->getV1()->getInd();
             int v2Idx = oldEdge->getV2()->getInd();
-            
-            // Validate indices
             if (v1Idx < 0 || v2Idx < 0 || 
                 v1Idx >= newForm->getVertexVector().size() || 
                 v2Idx >= newForm->getVertexVector().size()) {
                 continue;
             }
-            
-            // Get corresponding vertices from new form
+
             VertexT* newV1 = newForm->getVertexVector()[v1Idx];
             VertexT* newV2 = newForm->getVertexVector()[v2Idx];
             
             if (!newV1 || !newV2) continue;
-            
-            // Create edge with same properties
+
             EdgeT* newEdge = newForm->insertE(newV1, newV2, oldEdge->getW());
             if (newEdge) {
                 newEdge->setData(oldEdge->getData());
@@ -230,8 +199,7 @@ void SimpleGraph<DATA, NAME, WEIGHT>::switchForm(GraphForm<DATA, NAME, WEIGHT> *
         }
         delete oldEdges;
     }
-    
-    // Set directed property
+
     newForm->setDirected(D);
     
     delete graphForm;

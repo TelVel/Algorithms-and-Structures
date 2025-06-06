@@ -5,18 +5,15 @@ LGraph<DATA, NAME, WEIGHT>::LGraph(unsigned _size, bool _directed) {
     size = _size;
     directed = _directed;
     list = nullptr;
-    vertexVector.clear();  // Ensure vector is empty
-    
-    // Create vertices in correct order (size-1 to 0)
+    vertexVector.clear();
     VNode* lastNode = nullptr;
     for (int i = 0; i < size; ++i) {
-        // Create vertex in vector first
+
         VertexT* vertex = new VertexT();
         vertex->setInd(i);
         vertex->setName(to_string(i));
         vertexVector.push_back(vertex);
-        
-        // Create list node
+
         VNode* newNode = new VNode(i, nullptr, nullptr);
         if (!list) {
             list = newNode;
@@ -40,8 +37,7 @@ LGraph<DATA, NAME, WEIGHT>::LGraph(LGraph &G) {
 template<typename DATA, typename NAME, typename WEIGHT>
 void LGraph<DATA, NAME, WEIGHT>::insertV(int v) {
     if (v < 0 || v >= size) return;
-    
-    // Check if vertex already exists in list
+
     VNode *vtmp = list;
     VNode *prev = nullptr;
     
@@ -49,14 +45,10 @@ void LGraph<DATA, NAME, WEIGHT>::insertV(int v) {
         prev = vtmp;
         vtmp = vtmp->next;
     }
-    
-    // If vertex already exists, return
+
     if (vtmp && vtmp->v_ind == v) return;
-    
-    // Create new vertex node
     VNode* newNode = new VNode(v, nullptr, vtmp);
-    
-    // Insert at correct position
+
     if (!prev) {
         list = newNode;
     } else {
@@ -110,19 +102,19 @@ template<typename DATA, typename NAME, typename WEIGHT>
 Edge<DATA, NAME, WEIGHT>* LGraph<DATA, NAME, WEIGHT>::getEdge(int v1, int v2) {
     VNode* vnode = list;
     while (vnode) {
-        if (vnode->v_ind == v1) {  // Нашли вершину v1
+        if (vnode->v_ind == v1) {
             ENode* enode = vnode->eNode;
             while (enode) {
-                if (enode->e->getV2()->getInd() == v2) {  // Нашли ребро в v2
+                if (enode->e->getV2()->getInd() == v2) {
                     return enode->e;
                 }
                 enode = enode->next;
             }
-            break;  // Все рёбра проверены
+            break;
         }
         vnode = vnode->next;
     }
-    return nullptr;  // Ребро не найдено
+    return nullptr;
 }
 
 template<typename DATA, typename NAME, typename WEIGHT>
@@ -272,15 +264,13 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insert(VertexT *v1, Vertex
         v1->getInd() >= vertexVector.size() || v2->getInd() >= vertexVector.size()) {
         return nullptr;
     }
-    
-    // Find vertex node for v1
+
     VNode *vtmp = list;
     while (vtmp && vtmp->v_ind != v1->getInd()) {
         vtmp = vtmp->next;
     }
     if (!vtmp) return nullptr;
-    
-    // Check for existing edge
+
     ENode *etmp = vtmp->eNode;
     while (etmp) {
         if (etmp->e && etmp->e->getV2() && 
@@ -289,17 +279,14 @@ Edge<DATA, NAME, WEIGHT> *LGraph<DATA, NAME, WEIGHT>::insert(VertexT *v1, Vertex
         }
         etmp = etmp->next;
     }
-    
-    // Use vertices from vertexVector to ensure consistency
+
     VertexT* sourceVertex = vertexVector[v1->getInd()];
     VertexT* targetVertex = vertexVector[v2->getInd()];
     
-    // Create new edge
     Edge<DATA, NAME, WEIGHT> *res = new Edge<DATA, NAME, WEIGHT>(
         sourceVertex, targetVertex, _w
     );
-    
-    // Add to front of edge list
+
     vtmp->eNode = new ENode(res, vtmp->eNode);
     return res;
 }
