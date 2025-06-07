@@ -60,7 +60,6 @@ public:
     ~CycleFinder() {
         cycles.clear();
         visited.clear();
-        // Note: We don't delete Graph as it's owned externally
     }
 
     void restart() {
@@ -78,7 +77,7 @@ public:
 
 private:
     void solve() {
-        visited.assign(Graph->getV(), false); // Очищаем и ресайзим
+        visited.assign(Graph->getV(), false);
         cycles.clear();
         if (Graph) {
             std::vector<int> path;

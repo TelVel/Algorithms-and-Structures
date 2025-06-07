@@ -4,8 +4,7 @@ template<typename DATA, typename NAME, typename WEIGHT>
 MGraph<DATA, NAME, WEIGHT>::MGraph(unsigned _size, bool _directed) {
     size = _size;
     directed = _directed;
-    
-    // Initialize matrix
+
     matrix.resize(size);
     for (int i = 0; i < size; ++i) {
         matrix[i].resize(size);
@@ -13,8 +12,7 @@ MGraph<DATA, NAME, WEIGHT>::MGraph(unsigned _size, bool _directed) {
             matrix[i][j] = nullptr;
         }
     }
-    
-    // Initialize vertex vector
+
     vertexVector.clear();
     for (int i = 0; i < size; ++i) {
         VertexT* vertex = new VertexT();

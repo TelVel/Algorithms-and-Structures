@@ -91,7 +91,6 @@ public:
         return paths[from][to];
     }
 
-    // Get all shortest paths and distances
     struct PathInfo {
         vector<int> path;
         WD distance;

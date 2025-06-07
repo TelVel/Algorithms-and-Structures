@@ -2,7 +2,7 @@
 
 template<typename DATA, typename NAME>
 Vertex<DATA, NAME>::Vertex() {
-    //name = nullptr;
+    name = nullptr;
     data = 0;
     index = 0;
 }
